@@ -1,25 +1,121 @@
-[gd_scene load_steps=6 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" uid="uid://ovjegpk30m4h" path="res://scenes/ingame_scene.gd" id="1_objyc"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="1_y6ebv"]
-[ext_resource type="Texture2D" uid="uid://dmelj2qgr8w7k" path="res://icon.svg" id="2_h1yxu"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="3_8o178"]
-[ext_resource type="Script" uid="uid://cu3npowt4r1px" path="res://scenes/node_example.gd" id="3_a5686"]
+[ext_resource type="PackedScene" uid="uid://d103v2idprwow" path="res://scenes/character.tscn" id="4_7v5ay"]
 
-[node name="IngameScene" type="Node2D"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7v5ay"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_2577t"]
+sky_material = SubResource("ProceduralSkyMaterial_7v5ay")
+
+[sub_resource type="Environment" id="Environment_gadrd"]
+background_mode = 2
+sky = SubResource("Sky_2577t")
+glow_enabled = true
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7qeea"]
+
+[sub_resource type="Gradient" id="Gradient_j8p1b"]
+offsets = PackedFloat32Array(0.057971016, 0.5797101)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jvdmq"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6vd02"]
+noise = SubResource("FastNoiseLite_jvdmq")
+color_ramp = SubResource("Gradient_j8p1b")
+seamless = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ji488"]
+albedo_color = Color(0.18531847, 0.07143078, 3.008172e-08, 1)
+albedo_texture = SubResource("NoiseTexture2D_6vd02")
+metallic_specular = 0.11
+roughness = 0.49
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7qeea"]
+material = SubResource("StandardMaterial3D_ji488")
+size = Vector2(250, 250)
+
+[node name="IngameScene" type="Node3D" unique_id=1152490203]
 script = ExtResource("1_objyc")
 
-[node name="NodeExample" type="Sprite2D" parent="." groups=["Persist"]]
-texture = ExtResource("2_h1yxu")
-script = ExtResource("3_a5686")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1326523670]
+environment = SubResource("Environment_gadrd")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1866706062]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
 
-[node name="FadeOverlay" parent="UI" instance=ExtResource("1_y6ebv")]
+[node name="SkillAssignments" type="CanvasLayer" parent="." unique_id=432275085]
+
+[node name="AssignableSkills" type="VBoxContainer" parent="SkillAssignments" unique_id=1192038160]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
+
+[node name="SpeedContainer" type="VBoxContainer" parent="SkillAssignments/AssignableSkills" unique_id=1712993724]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SkillAssignments/AssignableSkills/SpeedContainer" unique_id=1092415895]
+layout_mode = 2
+text = "Speed"
+
+[node name="Speed" type="HSlider" parent="SkillAssignments/AssignableSkills/SpeedContainer" unique_id=544752415]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+max_value = 10.0
+rounded = true
+tick_count = 10
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="HealthContainer" type="VBoxContainer" parent="SkillAssignments/AssignableSkills" unique_id=1481009814]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SkillAssignments/AssignableSkills/HealthContainer" unique_id=1448643006]
+layout_mode = 2
+text = "Health"
+
+[node name="Health" type="HSlider" parent="SkillAssignments/AssignableSkills/HealthContainer" unique_id=537423623]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+max_value = 10.0
+rounded = true
+tick_count = 10
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2126253742]
+
+[node name="FadeOverlay" parent="UI" unique_id=377838917 instance=ExtResource("1_y6ebv")]
 unique_name_in_owner = true
 visible = false
 
-[node name="PauseOverlay" parent="UI" instance=ExtResource("3_8o178")]
+[node name="PauseOverlay" parent="UI" unique_id=1732368575 instance=ExtResource("3_8o178")]
 unique_name_in_owner = true
 process_mode = 2
 visible = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=724923451]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85238695, 2.1440473)
+
+[node name="Character" parent="." unique_id=489921077 instance=ExtResource("4_7v5ay")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=854876681]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1050129691]
+shape = SubResource("WorldBoundaryShape3D_7qeea")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=610891059]
+mesh = SubResource("PlaneMesh_7qeea")
+
+[connection signal="drag_ended" from="SkillAssignments/AssignableSkills/SpeedContainer/Speed" to="." method="_on_speed_drag_ended"]
+[connection signal="drag_ended" from="SkillAssignments/AssignableSkills/HealthContainer/Health" to="." method="_on_health_drag_ended"]

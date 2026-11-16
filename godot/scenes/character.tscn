@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://d103v2idprwow"]
+
+[ext_resource type="Script" uid="uid://bqgfq1ew8qxry" path="res://scenes/character.gd" id="1_agfs1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7qeea"]
+radius = 0.2
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7qeea"]
+radius = 0.2
+height = 1.0
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=489921077]
+collision_layer = 2
+script = ExtResource("1_agfs1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1897583768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_7qeea")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=127451423]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_7qeea")
+
+[node name="HealthLabel" type="Label3D" parent="." unique_id=564452396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9767238, 0)
+billboard = 1
+text = "Health : 100"
