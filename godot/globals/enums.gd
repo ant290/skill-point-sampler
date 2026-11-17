@@ -1,3 +1,3 @@
 extends Node
 
-enum StatType {HEALTH, SPEED}
+enum StatType {HEALTH, SPEED, RANGE}
